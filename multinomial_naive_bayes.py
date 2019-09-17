@@ -41,6 +41,7 @@ class MultinomialNaiveBayes(LinearClassifier):
 
 
         # YOUR CODE HERE
+        #RELL - Numpy Working
 
 
 
