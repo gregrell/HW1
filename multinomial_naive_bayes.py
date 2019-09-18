@@ -42,8 +42,21 @@ class MultinomialNaiveBayes(LinearClassifier):
 
         # YOUR CODE HERE
         #RELL - Numpy Working
-        print('Classes: ',n_classes,'Docs: ',n_docs,'Words: ',n_words)
-        print "prior=",prior,"likelihood=",likelihood
+        print 'Classes: %d, Docs: %d, Words: %d' %(n_classes,n_docs,n_words)
+        #crudely extract the number of class 0 and class 1.
+        numClass1=0
+        for doc in y:
+            if doc==1:
+                numClass1+=1
+
+        numClass0=len(y)-numClass1
+
+        #Set the prior parameters
+        prior[0]=float(numClass0)/n_docs
+        prior[1]=float(numClass1)/n_docs
+
+        print 'Prior is ',prior
+
 
 
 
