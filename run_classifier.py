@@ -7,7 +7,8 @@ if __name__ == '__main__':
     nb = MultinomialNaiveBayes()
     
     params = nb.train(dataset.train_X, dataset.train_y)
-    
+
+
     predict_train = nb.test(dataset.train_X, params)
     eval_train = nb.evaluate(predict_train, dataset.train_y)
     

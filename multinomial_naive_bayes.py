@@ -61,6 +61,16 @@ class MultinomialNaiveBayes(LinearClassifier):
 
         print 'Prior is ',prior
 
+        for val in x[0]:
+            if val !=0:
+                print val
+
+
+
+
+
+
+
 
 
 
