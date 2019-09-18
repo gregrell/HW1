@@ -42,18 +42,22 @@ class MultinomialNaiveBayes(LinearClassifier):
 
         # YOUR CODE HERE
         #RELL - Numpy Working
-        print 'Classes: %d, Docs: %d, Words: %d' %(n_classes,n_docs,n_words)
-        #crudely extract the number of class 0 and class 1.
-        numClass1=0
-        for doc in y:
-            if doc==1:
-                numClass1+=1
+        print 'Classes: %s, Docs: %d, Words: %d' %(classes,n_docs,n_words)
+        # initialize the array of size number of classes
+        numClass=[0] * n_classes
 
-        numClass0=len(y)-numClass1
+        # for each class, find how many matches there are in the y array, increment the numClass array at that
+        # class index.
+
+        for myClass in classes:
+            for i in y:
+                if y[i][0]==myClass:
+                    numClass[myClass]+=1
+        print numClass
 
         #Set the prior parameters
-        prior[0]=float(numClass0)/n_docs
-        prior[1]=float(numClass1)/n_docs
+        prior[0]=float(numClass[0])/n_docs
+        prior[1]=float(numClass[1])/n_docs
 
         print 'Prior is ',prior
 
