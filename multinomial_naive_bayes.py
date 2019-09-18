@@ -42,6 +42,8 @@ class MultinomialNaiveBayes(LinearClassifier):
 
         # YOUR CODE HERE
         #RELL - Numpy Working
+        print('Classes: ',n_classes,'Docs: ',n_docs,'Words: ',n_words)
+        print "prior=",prior,"likelihood=",likelihood
 
 
 
