@@ -69,15 +69,32 @@ class MultinomialNaiveBayes(LinearClassifier):
         #print x.shape[1] # numpy shape = returns the size of an array by dimension array.shape[0] rows, array.shape[1]
         # columns
         # the x,y data is represented as follows: all the documents were dissected into a bag of words.
-        # The volcabulary is 13989 words and there are 1600 total documents
+        # The volcabulary is 13989 words and there are 1600 total documents. These documents are either class
+        # positive or negative and in those 1600 rows they are mixed at random.
         # Each row represents a document, and each column represents the number of times that particular word exists
         # in that document. That's it. It's a 2D array of statistics.
 
-        for row in range(x.shape[0]):
-            if y[row]==0:
-                print 'class 0'
-            elif y[row]==1:
-                print 'class 1'
+        countOfWordInPosClass=np.zeros((n_words,n_classes))
+        i=0
+        for word in range(x.shape[1]):
+            for doc in range(x.shape[0]):
+                countOfWordInPosClass[word, y[doc][0]] += x[doc, word]
+                i+=1
+                if i%1000000==0:
+                    print float(i)/(n_words*n_docs) * 100, '% done'
+        totalWordsClass=[0,0]
+
+
+        totalWordsClass[0]=np.sum(countOfWordInPosClass[:,0])
+        totalWordsClass[1]=np.sum(countOfWordInPosClass[:,1])
+        print totalWordsClass[0]
+        print totalWordsClass[1]
+
+
+
+        #for word in x.shape[1]:
+            #likelihood[word,0]=float(countOfWordInPosClass[word,0]+1)/
+
 
 
 
