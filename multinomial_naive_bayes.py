@@ -9,7 +9,7 @@ class MultinomialNaiveBayes(LinearClassifier):
         self.trained = False
         self.likelihood = 0
         self.prior = 0
-        self.smooth = False
+        self.smooth = True
         self.smooth_param = 1
         
     def train(self, x, y):
@@ -90,11 +90,11 @@ class MultinomialNaiveBayes(LinearClassifier):
         print totalWordsClass[0]
         print totalWordsClass[1]
 
+        # Targets: Accuracy on training set: 0.985625, on test set: 0.687500.
 
-
-        #for word in x.shape[1]:
-            #likelihood[word,0]=float(countOfWordInPosClass[word,0]+1)/
-
+        for word in range(x.shape[1]):
+            likelihood[word, 0] = float(countOfWordInPosClass[word, 0])/(totalWordsClass[0]+n_words)
+            likelihood[word, 1] = float(countOfWordInPosClass[word, 1])/(totalWordsClass[1] + n_words)
 
 
 
