@@ -44,6 +44,11 @@ class MultinomialNaiveBayes(LinearClassifier):
         #RELL - Numpy Working
         print 'Classes: %s, Docs: %d, Words: %d' %(classes,n_docs,n_words)
         # initialize the array of size number of classes
+
+        theCat, num_cat =np.unique(y,return_counts=True)
+
+        print 'the cat ', theCat
+        print 'the cat count ',num_cat
         numClass=[0] * n_classes
 
         # for each class, find how many matches there are in the y array, increment the numClass array at that
@@ -61,9 +66,18 @@ class MultinomialNaiveBayes(LinearClassifier):
 
         print 'Prior is ',prior
 
-        for val in x[0]:
-            if val !=0:
-                print val
+        #print x.shape[1] # numpy shape = returns the size of an array by dimension array.shape[0] rows, array.shape[1]
+        # columns
+        # the x,y data is represented as follows: all the documents were dissected into a bag of words.
+        # The volcabulary is 13989 words and there are 1600 total documents
+        # Each row represents a document, and each column represents the number of times that particular word exists
+        # in that document. That's it. It's a 2D array of statistics.
+
+        for row in range(x.shape[0]):
+            if y[row]==0:
+                print 'class 0'
+            elif y[row]==1:
+                print 'class 1'
 
 
 
