@@ -98,8 +98,8 @@ class MultinomialNaiveBayes(LinearClassifier):
 
         # Targets: Accuracy on training set: 0.985625, on test set: 0.687500.
         for word in range(n_words):
-            likelihood[word, 0] = float(countOfWordInClass[word, 0])/(totalWordsClass[0] + n_words)
-            likelihood[word, 1] = float(countOfWordInClass[word, 1])/(totalWordsClass[1] + n_words)
+            likelihood[word, 0] = float(countOfWordInClass[word, 0])/(totalWordsClass[0])
+            likelihood[word, 1] = float(countOfWordInClass[word, 1])/(totalWordsClass[1])
 
 
 
