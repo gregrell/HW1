@@ -97,6 +97,9 @@ class MultinomialNaiveBayes(LinearClassifier):
         print 'The total number of words in class 0 is ',totalWordsClass[0], ' Total for class 1 is ', totalWordsClass[1]
 
         # Targets: Accuracy on training set: 0.985625, on test set: 0.687500.
+        # In order to achieve EXACT accuracy as described in HW1 the number of words in the vocabulary
+        # has been omitted from the denominator. This takes on equation 4.12 from the textbook
+        # Only add the total number of words in dictionary in denominator when using laplace smoothing.
         for word in range(n_words):
             likelihood[word, 0] = float(countOfWordInClass[word, 0])/(totalWordsClass[0])
             likelihood[word, 1] = float(countOfWordInClass[word, 1])/(totalWordsClass[1])
