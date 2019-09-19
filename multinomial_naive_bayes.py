@@ -9,7 +9,7 @@ class MultinomialNaiveBayes(LinearClassifier):
         self.trained = False
         self.likelihood = 0
         self.prior = 0
-        self.smooth = True
+        self.smooth = False
         self.smooth_param = 1
         
     def train(self, x, y):
@@ -43,58 +43,63 @@ class MultinomialNaiveBayes(LinearClassifier):
         # YOUR CODE HERE
         #RELL - Numpy Working
         print 'Classes: %s, Docs: %d, Words: %d' %(classes,n_docs,n_words)
-        # initialize the array of size number of classes
 
-        theCat, num_cat =np.unique(y,return_counts=True)
+        # Initialize Number of Docs In Class Array
+        numDocsInClass=[0] * n_classes
 
-        print 'the cat ', theCat
-        print 'the cat count ',num_cat
-        numClass=[0] * n_classes
-
-        # for each class, find how many matches there are in the y array, increment the numClass array at that
+        # for each class, find how many matches there are
+        # in the y array, increment the numDocsInClass array at that
         # class index.
 
-        for myClass in classes:
+        for currentClass in classes:
             for i in y:
-                if y[i][0]==myClass:
-                    numClass[myClass]+=1
-        print numClass
+                if y[i][0]==currentClass:
+                    numDocsInClass[currentClass] += 1
+        print 'there are ', numDocsInClass[0], ' docs in class 0'
+        print 'there are ', numDocsInClass[1], ' docs in class 1'
 
         #Set the prior parameters
-        prior[0]=float(numClass[0])/n_docs
-        prior[1]=float(numClass[1])/n_docs
+        prior[0]=float(numDocsInClass[0])/n_docs
+        prior[1]=float(numDocsInClass[1])/n_docs
 
         print 'Prior is ',prior
 
         #print x.shape[1] # numpy shape = returns the size of an array by dimension array.shape[0] rows, array.shape[1]
         # columns
         # the x,y data is represented as follows: all the documents were dissected into a bag of words.
-        # The volcabulary is 13989 words and there are 1600 total documents. These documents are either class
+        # The vocabulary is 13989 words and there are 1600 total documents. These documents are either class
         # positive or negative and in those 1600 rows they are mixed at random.
         # Each row represents a document, and each column represents the number of times that particular word exists
         # in that document. That's it. It's a 2D array of statistics.
 
-        countOfWordInPosClass=np.zeros((n_words,n_classes))
+        # Count the number of words in the classes by word. This means for each word index count the
+        # number of times that particular word exists within that class.
+        countOfWordInClass=np.zeros((n_words,n_classes))
         i=0
-        for word in range(x.shape[1]):
-            for doc in range(x.shape[0]):
-                countOfWordInPosClass[word, y[doc][0]] += x[doc, word]
+        for word in range(n_words):
+            for doc in range(n_docs):
+                countOfWordInClass[word, y[doc][0]] += x[doc, word]
                 i+=1
                 if i%1000000==0:
-                    print float(i)/(n_words*n_docs) * 100, '% done'
+                    print '\r', float(i)/(n_words*n_docs) * 100, '% done',
+        print ""
+
+
+        # Count the total number of words within each class.
         totalWordsClass=[0,0]
 
 
-        totalWordsClass[0]=np.sum(countOfWordInPosClass[:,0])
-        totalWordsClass[1]=np.sum(countOfWordInPosClass[:,1])
-        print totalWordsClass[0]
-        print totalWordsClass[1]
+        for doc in range(n_docs):
+            if y[doc][0] == 0:
+                totalWordsClass[0] += np.sum(x[doc])
+            elif y[doc][0] == 1:
+                totalWordsClass[1] += np.sum(x[doc])
+        print 'The total number of words in class 0 is ',totalWordsClass[0], ' Total for class 1 is ', totalWordsClass[1]
 
         # Targets: Accuracy on training set: 0.985625, on test set: 0.687500.
-
-        for word in range(x.shape[1]):
-            likelihood[word, 0] = float(countOfWordInPosClass[word, 0])/(totalWordsClass[0]+n_words)
-            likelihood[word, 1] = float(countOfWordInPosClass[word, 1])/(totalWordsClass[1] + n_words)
+        for word in range(n_words):
+            likelihood[word, 0] = float(countOfWordInClass[word, 0])/(totalWordsClass[0] + n_words)
+            likelihood[word, 1] = float(countOfWordInClass[word, 1])/(totalWordsClass[1] + n_words)
 
 
 
